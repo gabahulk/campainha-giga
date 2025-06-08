@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Campainha do Gaba</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 20px 40px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 24px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>🚪 Toque a Campainha 🚪</h1>
+        <p>Minha campainha não funciona. Clique no botão abaixo para me avisar!</p>
+        <button class="button" onclick="notify()">🔔 Tocar Campainha 🔔</button>
+        <p id="status"></p>
+    </div>
+
+    <script>
+        function notify() {
+            const status = document.getElementById("status");
+            status.innerText = "Enviando notificação...";
+
+            fetch("https://eoklfu4myxqz0b.m.pipedream.net", {
+                method: "POST",
+                body: JSON.stringify({ touched: true }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    status.innerText = "✅ Notificação enviada! Aguarde, o morador já foi avisado.";
+                } else {
+                    status.innerText = "⚠️ Ocorreu um erro. Tente novamente.";
+                }
+            })
+            .catch(error => {
+                status.innerText = "⚠️ Não foi possível enviar. Verifique sua conexão.";
+            });
+        }
+    </script>
+</body>
+</html>
